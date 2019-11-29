@@ -10,6 +10,7 @@
 //kak da napravq cikyl vyvejdasht razlichni dumi v edin string bez zadadena stoinost za elementi na stringa
 int entering_of_products();
 int entering_of_qunatity();
+int client();
 
 int main()
 {
@@ -31,81 +32,70 @@ int main()
 }
 
 int entering_of_products(int* pstorage_cells){
-	int quantity_of_storage=0, quantity=0;
+	int quantity_of_storage=0, quantity=0, cont_cells_for_drinks, i4;
 	int i;
 	int i3, j3;
 	double weight[X*Y];
 	for(i=0; i<(Y*X); i++)
 	{
-	printf("Enter Name: ");
-	char name[15];
-	scanf("%s\n", &name);
+		printf("Enter Name: ");
+		char name[15];
+		scanf("%s\n", &name);
 
-	printf("Enter Type: (Drink, Fruit, Fastfood)");
-	char type[15];
-	scanf("%s\n", &type);
+		printf("Enter Type: (Drink, Fruit, Fastfood)");
+		char type[15];
+		scanf("%s\n", &type);
 
-	printf("Enter Weight: ");
-	scanf("%lf\n", &weight[i]);
-	double *pweight=&weight[0];
+		printf("Enter Weight: (NB enter 0 weight for drinks)");
+		scanf("%lf\n", &weight[i]);
+		double *pweight=&weight[0];
 
-	printf("Enter Price: ");
-	double price[X*Y];
-	scanf("%lf\n", &price[i]);
-	double *pprice=&price[0];
+		printf("Enter Price: ");
+		double price[X*Y];
+		scanf("%lf\n", &price[i]);
+		double *pprice=&price[0];
 
-	//entering_of_qunatity(i, quantity_of_storage);
-	entering_of_qunatity(&quantity_of_storage, &quantity);
+		//entering_of_qunatity(i, quantity_of_storage);
+		entering_of_qunatity(&quantity_of_storage, &quantity);
 	
      
-    if (strcmp(type, "drink")==0)//popylvane v tochno opredelena kletka napravi
-    {
-    	if((quantity==Z*2)||(quantity==Z*3)||(quantity==Z*4)||(quantity==Z*5)||(quantity==Z*6)||(quantity==Z*7)||(quantity==Z*8)||(quantity==Z*9))
-    	{
-    		do
+  	  if (strcmp(type, "drink")==0)//popylvane v tochno opredelena kletka napravi
+  	  {
+   		 	if((quantity==Z*2)||(quantity==Z*3)||(quantity==Z*4)||(quantity==Z*5)||(quantity==Z*6)||(quantity==Z*7)||(quantity==Z*8)||(quantity==Z*9))
     		{
-    			for (i3 = 0; i < X*Y; ++i3)
+    			do
     			{
-    					if ((quantity/Z)==((*pstorage_cells)+i3))
-    					{
-    						*(pstorage_cells+i3)=0;
-    					}
-    					else
-    					{
-    						*(pstorage_cells+i3)=0;
-    					}
-    			}
-    		} while (i3=X*Y);
-    		/*do{
-    			for (int i2 = 0; i < X*Y; ++i2)
-    			{
-    				for (int j2 = 0; i < X*Y; ++j2)
-    				{
-    					if ((quantity/Z)==matrix[i2][j2])//opravi matrix kym pointera za cell
-    					{
-    						matrix[i2][j2]=0;
-    					}
-    					else
-    					{
-    						matrix[i2][j2]=0;
-    					}
-    				}
-    			}
-    		}whlie(i2*j2!=X*Y);*/
-        }
-    }
-	if (quantity_of_storage>H)
-	{
-	 	i+=30;
-	}
-	}
-	for (int i3 = 0, ca=1; i < X*Y; ++i3, ++ca)
-	{
-		if(weight[i3]>weight[i3+ca])
+    				for (i3 = 0; i < X*Y; ++i3)
+    				{//when a cell is in use
+    						if ((quantity/Z)==(*(pstorage_cells+i3)))
+    						{
+    							for(i4=0;i4<=i3;i4++)
+    							{
+    								*(pstorage_cells+i4)=1;
+    							}
+    						}	
+    				}		
+    			} while (i3=X*Y);
+    		
+        	}
+    	}
+		if (quantity_of_storage>H)//where should i put it
 		{
-			//int temp
+	 		i+=30;
+	 		continue;
+		}
+		for (int i3 = 0, ca=1; i3 < X*Y; ++i3)
+		{
+			if(weight[i3]>weight[i3+ca])//?????
+		{
+			//int i5=i3;//saves the heaviest
+		for (int zx = i3+i4; zx < X*Y; ++zx)
+		{
+			*(pstorage_cells+zx)=2;//2 means heavy thing num 1
+		}
 		}
 	}
+	return *pprice;
 }
 
 int entering_of_qunatity(int i, int quantity_of_storage){
@@ -159,4 +149,12 @@ int entering_of_qunatity(int i, int quantity_of_storage){
 	 	entering_of_qunatity(i, quantity_of_storage);
 	}
 	return quantity_of_storage, quantity[i];
+}
+
+int client(){
+	int money, change;
+	double price;
+	printf("Enter your money: ");
+	scanf("%d\n", &money);
+	entering_of_products(&price);
 }
